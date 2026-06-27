@@ -20,7 +20,7 @@ export default function App() {
   }, [setIsLogin]);
 
   return (
-    <>
+    <div className="mt-4">
       <BackwardButton />
       <Routes>
         <Route path="/" element={<RootPage />} />
@@ -28,6 +28,6 @@ export default function App() {
         <Route path="/signup" element={<Signup />} />
       </Routes>
       <BootstrapToastContainer />
-    </>
+    </div>
   );
 }
