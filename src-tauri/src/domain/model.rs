@@ -20,6 +20,7 @@ pub struct DomainCategory {
 #[derive(Debug, Serialize, Deserialize, sqlx::FromRow)]
 pub struct PracticeText {
     pub id: i64,
+    pub user_id: i64,
     pub domain_category_id: Option<i64>,    
     pub source_language_type: String,
     pub source_language: String,

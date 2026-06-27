@@ -1,4 +1,4 @@
-import { TipsType } from "./type/Type";
+import { TipsType } from "../../type/Type";
 
 type Props = {
   mode: "view" | "create" | "edit";

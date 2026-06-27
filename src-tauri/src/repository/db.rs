@@ -27,6 +27,7 @@ pub async fn init_db(db: &SqlitePool) -> Result<(), sqlx::Error> {
 
         CREATE TABLE IF NOT EXISTS practice_texts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
             domain_category_id INTEGER,
             source_language_type TEXT NOT NULL,
             source_language TEXT NOT NULL,
@@ -35,6 +36,7 @@ pub async fn init_db(db: &SqlitePool) -> Result<(), sqlx::Error> {
             sample_translation TEXT,
             tips TEXT,
             created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id),
             FOREIGN KEY (domain_category_id) REFERENCES domain_categories(id)
         );
 

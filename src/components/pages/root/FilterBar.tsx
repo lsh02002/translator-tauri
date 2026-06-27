@@ -1,4 +1,4 @@
-import { DifficultyType, ModeType } from "./type/Type";
+import { DifficultyType, ModeType } from "../../type/Type";
 
 type Props = {
   mode: ModeType;

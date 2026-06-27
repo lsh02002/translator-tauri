@@ -1,4 +1,4 @@
-import { ModeType } from "./type/Type";
+import { ModeType } from "../../type/Type";
 
 type Props = {
   mode: ModeType;
