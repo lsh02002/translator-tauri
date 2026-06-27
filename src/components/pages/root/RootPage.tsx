@@ -9,6 +9,7 @@ import FilterBar from "./FilterBar";
 import Header from "./Header";
 import SentenceHeader from "./SentenceHeader";
 import { useLoginStore } from "../../zustand/ZustandLogin";
+import { showToast } from "../../form/Toast";
 
 export default function RootPage() {
   const { isLogin } = useLoginStore();
@@ -34,8 +35,8 @@ export default function RootPage() {
       });
       setSentences(result);
       console.log("문장 데이터를 성공적으로 불러왔습니다.", result);
-    } catch (error) {
-      console.error("문장 데이터를 불러오는 데 실패했습니다.", error);
+    } catch (e) {
+      showToast("문장 데이터를 불러오는 데 실패했습니다.: " + String(e), "error");
     }
   };
 
@@ -55,6 +56,12 @@ export default function RootPage() {
   }, [difficulty, sentences]);
 
   const current = filteredSources[index] ?? null;
+
+  useEffect(() => {
+    if (filteredSources.length) {
+      setIndex(filteredSources.length - 1);
+    }
+  }, [filteredSources?.length]);
 
   const tips = useMemo(() => {
     try {
@@ -170,9 +177,8 @@ export default function RootPage() {
       setIndex(0);
 
       alert("연습 문장이 생성되었습니다.");
-    } catch (error) {
-      console.error("연습 문장 생성에 실패했습니다.", error);
-      alert("연습 문장 생성에 실패했습니다.");
+    } catch (e) {
+      showToast("연습 문장 생성에 실패했습니다.: " + String(e), "error");
     }
   };
 
@@ -208,9 +214,8 @@ export default function RootPage() {
       setMode("view");
 
       alert("연습 문장이 수정되었습니다.");
-    } catch (error) {
-      console.error("연습 문장 수정에 실패했습니다.", error);
-      alert("연습 문장 수정에 실패했습니다.");
+    } catch (e) {
+      showToast("연습 문장 수정에 실패했습니다.: " + String(e), "error");
     }
   };
 

@@ -5,6 +5,7 @@ import Signup from "./components/pages/user/Signup";
 import { useEffect } from "react";
 import { useLoginStore } from "./components/zustand/ZustandLogin";
 import { BackwardButton } from "./components/form/BackwardButton";
+import { BootstrapToastContainer } from "./components/form/Toast";
 
 export default function App() {
   const { setIsLogin } = useLoginStore();
@@ -26,6 +27,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
+      <BootstrapToastContainer />
     </>
   );
 }
