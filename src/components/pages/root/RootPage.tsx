@@ -68,7 +68,7 @@ export default function RootPage() {
     if (filteredSources.length) {
       setIndex(filteredSources.length - 1);
     }
-  }, [filteredSources.length, index]);
+  }, [filteredSources.length]);
 
   const tips = useMemo(() => {
     try {
