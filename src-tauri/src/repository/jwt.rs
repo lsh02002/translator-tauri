@@ -1,6 +1,7 @@
 use chrono::{Duration, Utc};
 use jsonwebtoken::{decode, encode, DecodingKey, EncodingKey, Header, Validation};
 use serde::{Deserialize, Serialize};
+use std::path::PathBuf;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Claims {
     pub sub: i64,
@@ -45,7 +46,9 @@ pub fn verify_token(token: &str) -> Result<Claims, String> {
 }
 
 fn jwt_secret() -> Result<String, String> {
-    dotenvy::dotenv().ok();
+    let env_path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(".env");
+
+    dotenvy::from_path(env_path).ok();
 
     std::env::var("JWT_SECRET")
         .map_err(|_| "JWT_SECRET not set in .env".to_string())

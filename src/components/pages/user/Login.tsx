@@ -7,6 +7,7 @@ import { LoginResponseType } from "../../type/Type";
 import TextInput from "../../form/TextInput";
 import PasswordVisibleInput from "../../form/PasswordVisibleInput";
 import ConfirmButton from "../../form/ConfirmButton";
+import { showToast } from "../../form/Toast";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const Login = () => {
       email,
       password,
     };
+    try {
     const res: LoginResponseType = await invoke("login", { request });
     localStorage.setItem("userId", res.user_id.toString());
     localStorage.setItem("nickname", res.nickname);
@@ -26,6 +28,9 @@ const Login = () => {
 
     setIsLogin(true);
     navigate("/");
+    } catch (e) {
+      showToast("로그인 실패: " + String(e), "error");
+    }
   };
 
   return (
