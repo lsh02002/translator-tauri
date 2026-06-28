@@ -14,7 +14,7 @@ export default function SentenceCreatePage() {
 
   const [sourceLanguage, setSourceLanguage] = useState("");
   const [targetLanguage, setTargetLanguage] = useState("");
-  const [difficulty, setDifficulty] = useState<DifficultyType>("쉬움");
+  const [difficulty, setDifficulty] = useState<DifficultyType>("전부");
 
   const createPracticeText = async () => {
     if (!sourceLanguage.trim()) {
@@ -48,19 +48,25 @@ export default function SentenceCreatePage() {
       <section className="glass-card p-4">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h2 className="mb-0">연습 문장 생성</h2>
-
-          <button
-            type="button"
-            className="btn btn-outline-secondary"
-            onClick={() => navigate("/")}
-          >
-            돌아가기
-          </button>
         </div>
 
         <div className="row g-3 mb-4">
           <div className="col-md-6">
-            <label className="form-label">언어</label>
+            <label className="form-label fw-bold">난이도</label>
+            <select
+              className="form-select"
+              value={difficulty}
+              onChange={(e) => setDifficulty(e.target.value as DifficultyType)}
+            >
+              <option value="전부">전체</option>
+              <option value="쉬움">쉬움</option>
+              <option value="보통">보통</option>
+              <option value="어려움">어려움</option>
+            </select>
+          </div>
+
+          <div className="col-md-6">
+            <label className="form-label">모드</label>
             <select
               className="form-select"
               value={sourceLanguageType}
@@ -68,21 +74,8 @@ export default function SentenceCreatePage() {
                 setSourceLanguageType(e.target.value as "ko-KR" | "en-US")
               }
             >
-              <option value="ko-KR">한국어</option>
-              <option value="en-US">영어</option>
-            </select>
-          </div>
-
-          <div className="col-md-6">
-            <label className="form-label">난이도</label>
-            <select
-              className="form-select"
-              value={difficulty}
-              onChange={(e) => setDifficulty(e.target.value as DifficultyType)}
-            >
-              <option value="쉬움">쉬움</option>
-              <option value="보통">보통</option>
-              <option value="어려움">어려움</option>
+              <option value="ko-KR">한국어 → 영어</option>
+              <option value="en-US">영어 → 한국어</option>
             </select>
           </div>
         </div>
