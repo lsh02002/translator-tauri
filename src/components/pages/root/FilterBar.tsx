@@ -9,7 +9,7 @@ type Props = {
   setSourceLanguageType: (value: "ko-KR" | "en-US") => void;
   setIndex: (index: number) => void;
   shuffleSentence: () => void;
-}
+};
 
 export default function FilterBar({
   mode,

@@ -8,6 +8,7 @@ import { BootstrapToastContainer } from "./components/form/Toast";
 import SentenceCreatePage from "./components/pages/root/SetenceCreatePage";
 import SentenceEditPage from "./components/pages/root/SentenceEditPage";
 import SentenceListPage from "./components/pages/root/SentenceListPage";
+import SentenceAllListPage from "./components/pages/root/SentenceAllListPage";
 
 export default function App() {
   const { setIsLogin } = useLoginStore();
@@ -26,6 +27,7 @@ export default function App() {
       <BackwardButton />
       <Routes>
         <Route path="/" element={<SentenceListPage />} />
+        <Route path="/sentences/list" element={<SentenceAllListPage />} />
         <Route path="/sentences/create" element={<SentenceCreatePage />} />
         <Route path="/sentences/:id/edit" element={<SentenceEditPage />} />
         <Route path="/login" element={<Login />} />
