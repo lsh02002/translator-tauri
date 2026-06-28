@@ -65,12 +65,7 @@ export default function RootPage() {
   const current = filteredSources[index] ?? null;
 
   useEffect(() => {
-    if (filteredSources.length === 0) {
-      setIndex(0);
-      return;
-    }
-
-    if (index >= filteredSources.length) {
+    if (filteredSources.length) {
       setIndex(filteredSources.length - 1);
     }
   }, [filteredSources.length, index]);
