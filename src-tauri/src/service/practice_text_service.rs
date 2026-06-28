@@ -32,6 +32,16 @@ pub async fn update_practice_text(
     user_id: i64,
     request: CreatePracticeTextRequest,
 ) -> Result<PracticeText, Box<dyn std::error::Error>> {
+    let current = practice_text_repository::find_by_id(db, id, user_id).await?;
+
+    // 변경 여부 확인
+    if current.source_language_type == request.source_language_type
+        && current.source_language == request.source_language
+        && current.target_language == request.target_language
+    {
+        return Err("변경사항이 없습니다.".into());
+    }
+
     let review = review_translation_answer(
         &request.source_language_type,
         &request.source_language,
