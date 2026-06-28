@@ -72,7 +72,7 @@ export default function SentenceEditPage() {
       });
 
       alert("연습 문장이 수정되었습니다.");
-      navigate("/");
+      navigate(-1);
     } catch (e) {
       showToast("연습 문장 수정에 실패했습니다.: " + String(e), "error");
     }
@@ -134,7 +134,7 @@ export default function SentenceEditPage() {
           <button
             type="button"
             className="btn btn-outline-secondary"
-            onClick={() => navigate("/")}
+            onClick={() => navigate(-1)}
           >
             취소
           </button>
