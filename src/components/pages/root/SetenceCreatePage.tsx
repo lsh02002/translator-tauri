@@ -37,7 +37,7 @@ export default function SentenceCreatePage() {
       });
 
       alert("연습 문장이 생성되었습니다.");
-      navigate("/");
+      navigate(-1);
     } catch (e) {
       showToast("연습 문장 생성에 실패했습니다.: " + String(e), "error");
     }
@@ -100,7 +100,7 @@ export default function SentenceCreatePage() {
           <button
             type="button"
             className="btn btn-outline-secondary"
-            onClick={() => navigate("/")}
+            onClick={() => navigate(-1)}
           >
             취소
           </button>
