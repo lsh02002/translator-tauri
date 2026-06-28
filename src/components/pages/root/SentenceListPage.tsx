@@ -12,7 +12,7 @@ import SentenceHeader from "./SentenceHeader";
 import { useLoginStore } from "../../zustand/ZustandLogin";
 import { showToast } from "../../form/Toast";
 
-export default function RootPage() {
+export default function SentenceListPage() {
   const navigate = useNavigate();
   const { isLogin } = useLoginStore();
 
