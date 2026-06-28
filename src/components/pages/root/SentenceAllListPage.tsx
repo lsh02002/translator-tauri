@@ -51,7 +51,8 @@ export default function SentenceAllListPage() {
         !lowerKeyword ||
         sentence.source_language.toLowerCase().includes(lowerKeyword) ||
         sentence.target_language.toLowerCase().includes(lowerKeyword) ||
-        sentence.sample_translation?.toLowerCase().includes(lowerKeyword);
+        sentence.sample_translation?.toLowerCase().includes(lowerKeyword) ||
+        sentence.tips?.toLowerCase().includes(lowerKeyword);
 
       return matchDifficulty && matchKeyword;
     });
@@ -114,7 +115,7 @@ export default function SentenceAllListPage() {
             <div className="col-md-9">
               <input
                 className="form-control"
-                placeholder="원문, 번역, AI 번역 검색"
+                placeholder="원문, 번역, AI 번역, 점수, 리뷰 검색"
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
               />
@@ -209,12 +210,14 @@ export default function SentenceAllListPage() {
 
                         <div className="col-md-2 mb-2">
                           <strong>점수</strong>
-                          <div>{tips.score}점</div>
+                          <div>
+                            {highlightText(String(tips.score), keyword)}점
+                          </div>
                         </div>
 
                         <div className="col-md-8 mb-2">
                           <strong>리뷰</strong>
-                          <div>{tips.review}</div>
+                          <div>{highlightText(tips.review, keyword)}</div>
                         </div>
 
                         {tips.improvements &&
@@ -226,7 +229,9 @@ export default function SentenceAllListPage() {
                               <ul className="mt-2 mb-0">
                                 {tips.improvements.map(
                                   (item: string, idx: number) => (
-                                    <li key={idx}>{item}</li>
+                                    <li key={idx}>
+                                      {highlightText(item, keyword)}
+                                    </li>
                                   ),
                                 )}
                               </ul>
