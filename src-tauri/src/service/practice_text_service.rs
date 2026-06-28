@@ -54,3 +54,7 @@ pub async fn update_practice_text(
 pub async fn get_practice_texts(db: &SqlitePool, user_id: i64) -> Result<Vec<PracticeText>, String> {
     practice_text_repository::find_all(db, user_id).await.map_err(|e| e.to_string())
 }
+
+pub async fn get_practice_text(db: &SqlitePool, id: i64, user_id: i64) -> Result<PracticeText, String> {
+    practice_text_repository::find_by_id(db, id, user_id).await.map_err(|e| e.to_string())
+}

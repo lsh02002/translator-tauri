@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { useLoginStore } from "./components/zustand/ZustandLogin";
 import { BackwardButton } from "./components/form/BackwardButton";
 import { BootstrapToastContainer } from "./components/form/Toast";
+import SentenceCreatePage from "./components/pages/root/SetenceCreatePage";
+import SentenceEditPage from "./components/pages/root/SentenceEditPage";
 
 export default function App() {
   const { setIsLogin } = useLoginStore();
@@ -24,6 +26,8 @@ export default function App() {
       <BackwardButton />
       <Routes>
         <Route path="/" element={<RootPage />} />
+        <Route path="/sentences/create" element={<SentenceCreatePage />} />
+        <Route path="/sentences/:id/edit" element={<SentenceEditPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>

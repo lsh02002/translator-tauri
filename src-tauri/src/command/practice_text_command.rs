@@ -27,3 +27,9 @@ pub async fn get_practice_texts(state: State<'_, AppState>, token: String) -> Re
     let user_id = current_user(&token)?;
     practice_text_service::get_practice_texts(&state.db, user_id).await
 }
+
+#[tauri::command]
+pub async fn get_practice_text(state: State<'_, AppState>, token: String, id: i64) -> Result<PracticeText, String> {
+    let user_id = current_user(&token)?;
+    practice_text_service::get_practice_text(&state.db, id, user_id).await.map_err(|e| e.to_string())
+}   

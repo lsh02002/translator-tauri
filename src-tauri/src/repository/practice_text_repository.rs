@@ -82,3 +82,18 @@ pub async fn find_all(db: &SqlitePool, user_id: i64) -> Result<Vec<PracticeText>
     .fetch_all(db)
     .await
 }
+
+pub async fn find_by_id(db: &SqlitePool, id: i64, user_id: i64) -> Result<PracticeText, sqlx::Error> {
+    sqlx::query_as::<_, PracticeText>(
+        r#"
+        SELECT id, user_id, domain_category_id, source_language_type, source_language, target_language,
+               difficulty, sample_translation, tips, created_at
+        FROM practice_texts
+        WHERE id = ? AND user_id = ?
+        "#,
+    )
+    .bind(id)
+    .bind(user_id)
+    .fetch_one(db)
+    .await
+}

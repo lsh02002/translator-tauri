@@ -48,7 +48,8 @@ pub async fn run() {
             command::category_command::get_domain_categories,
             command::practice_text_command::create_practice_text,
             command::practice_text_command::update_practice_text,
-            command::practice_text_command::get_practice_texts,            
+            command::practice_text_command::get_practice_texts,
+            command::practice_text_command::get_practice_text,
             command::term_command::create_term,
             command::term_command::create_term_note,
         ])

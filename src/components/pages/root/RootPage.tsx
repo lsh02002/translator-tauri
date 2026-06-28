@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { invoke } from "@tauri-apps/api/core";
+import { useNavigate } from "react-router-dom";
+
 import { DifficultyType, ModeType, SentenceType } from "../../type/Type";
 import ActionButtons from "./ActionButtons";
 import SentenceReview from "./SentenceReview";
@@ -12,8 +13,10 @@ import { useLoginStore } from "../../zustand/ZustandLogin";
 import { showToast } from "../../form/Toast";
 
 export default function RootPage() {
+  const navigate = useNavigate();
   const { isLogin } = useLoginStore();
-  const [mode, setMode] = useState<ModeType>("view");
+
+  const mode: ModeType = "view";
 
   const [sourceLanguageType, setSourceLanguageType] = useState<
     "ko-KR" | "en-US"
@@ -33,10 +36,14 @@ export default function RootPage() {
       const result = await invoke<SentenceType[]>("get_practice_texts", {
         token,
       });
+
       setSentences(result);
       console.log("문장 데이터를 성공적으로 불러왔습니다.", result);
     } catch (e) {
-      showToast("문장 데이터를 불러오는 데 실패했습니다.: " + String(e), "error");
+      showToast(
+        "문장 데이터를 불러오는 데 실패했습니다.: " + String(e),
+        "error",
+      );
     }
   };
 
@@ -58,10 +65,15 @@ export default function RootPage() {
   const current = filteredSources[index] ?? null;
 
   useEffect(() => {
-    if (filteredSources.length) {
+    if (filteredSources.length === 0) {
+      setIndex(0);
+      return;
+    }
+
+    if (index >= filteredSources.length) {
       setIndex(filteredSources.length - 1);
     }
-  }, [filteredSources?.length]);
+  }, [filteredSources.length, index]);
 
   const tips = useMemo(() => {
     try {
@@ -72,14 +84,12 @@ export default function RootPage() {
   }, [current]);
 
   useEffect(() => {
-    if (mode !== "view") return;
-
     setSourceLanguage(current?.source_language ?? "");
     setTargetLanguage(current?.target_language ?? "");
     setSourceLanguageType(
       current?.source_language_type === "en-US" ? "en-US" : "ko-KR",
     );
-  }, [current, mode]);
+  }, [current]);
 
   const goNext = () => {
     if (filteredSources.length === 0) return;
@@ -105,7 +115,6 @@ export default function RootPage() {
     synth.cancel();
 
     const utterance = new SpeechSynthesisUtterance(sourceLanguage);
-
     const voices = synth.getVoices();
 
     utterance.voice =
@@ -122,118 +131,23 @@ export default function RootPage() {
   };
 
   const startCreateMode = () => {
-    setMode("create");
-    setSourceLanguage("");
-    setTargetLanguage("");
-    setDifficulty("전부");
-    setSourceLanguageType("ko-KR");
+    navigate("/sentences/create");
   };
 
   const startEditMode = () => {
     if (!current) return;
-
-    setMode("edit");
-    setSourceLanguage(current.source_language);
-    setTargetLanguage(current.target_language);
-    setDifficulty(current.difficulty);
-    setSourceLanguageType(
-      current.source_language_type === "en-US" ? "en-US" : "ko-KR",
-    );
+    navigate(`/sentences/${current.id}/edit`);
   };
-
-  const cancelWriteMode = () => {
-    setMode("view");
-
-    setSourceLanguage(current?.source_language ?? "");
-    setTargetLanguage(current?.target_language ?? "");
-    setDifficulty(current?.difficulty ?? "쉬움");
-    setSourceLanguageType(
-      current?.source_language_type === "en-US" ? "en-US" : "ko-KR",
-    );
-  };
-
-  const createPracticeText = async () => {
-    if (sourceLanguage.trim() === "") {
-      alert("원문 문장이 비어있습니다.");
-      return;
-    }
-
-    try {
-      const newPracticeText = {
-        domain_category_id: null,
-        source_language_type: sourceLanguageType,
-        source_language: sourceLanguage.trim(),
-        target_language: targetLanguage.trim(),
-        difficulty,
-      };
-
-      const token = localStorage.getItem("accessToken");
-
-      await invoke("create_practice_text", { token, request: newPracticeText });
-
-      await fetchSentences();
-
-      setMode("view");
-      setIndex(0);
-
-      alert("연습 문장이 생성되었습니다.");
-    } catch (e) {
-      showToast("연습 문장 생성에 실패했습니다.: " + String(e), "error");
-    }
-  };
-
-  const updatePracticeText = async () => {
-    if (!current) {
-      alert("수정할 문장이 없습니다.");
-      return;
-    }
-
-    if (sourceLanguage.trim() === "") {
-      alert("원문 문장이 비어있습니다.");
-      return;
-    }
-
-    try {
-      const updateRequest = {
-        source_language_type: sourceLanguageType,
-        source_language: sourceLanguage.trim(),
-        target_language: targetLanguage.trim(),
-        difficulty,
-      };
-
-      const token = localStorage.getItem("accessToken");
-
-      await invoke("update_practice_text", {
-        token,
-        id: current.id,
-        request: updateRequest,
-      });
-
-      await fetchSentences();
-
-      setMode("view");
-
-      alert("연습 문장이 수정되었습니다.");
-    } catch (e) {
-      showToast("연습 문장 수정에 실패했습니다.: " + String(e), "error");
-    }
-  };
-
-  const isWritable = mode === "create" || mode === "edit";
 
   return (
     <main className="app">
-      <Header
-        mode={mode}
-        index={index}
-        totalCount={filteredSources?.length ?? 0}
-      />
+      <Header mode={mode} index={index} totalCount={filteredSources.length} />
 
       <FilterBar
         mode={mode}
         difficulty={difficulty}
         sourceLanguageType={sourceLanguageType}
-        filteredLength={filteredSources?.length}
+        filteredLength={filteredSources.length}
         setDifficulty={setDifficulty}
         setSourceLanguageType={setSourceLanguageType}
         setIndex={setIndex}
@@ -251,7 +165,7 @@ export default function RootPage() {
         <SentenceEditor
           sourceLanguage={sourceLanguage}
           targetLanguage={targetLanguage}
-          isWritable={isWritable}
+          isWritable={false}
           setSourceLanguage={setSourceLanguage}
           setTargetLanguage={setTargetLanguage}
         />
@@ -265,14 +179,14 @@ export default function RootPage() {
         <ActionButtons
           mode={mode}
           current={current}
-          filteredLength={filteredSources?.length}
+          filteredLength={filteredSources.length}
           goPrev={goPrev}
           goNext={goNext}
           startEditMode={startEditMode}
           startCreateMode={startCreateMode}
-          createPracticeText={createPracticeText}
-          updatePracticeText={updatePracticeText}
-          cancelWriteMode={cancelWriteMode}
+          createPracticeText={() => {}}
+          updatePracticeText={() => {}}
+          cancelWriteMode={() => {}}
         />
       </section>
     </main>
