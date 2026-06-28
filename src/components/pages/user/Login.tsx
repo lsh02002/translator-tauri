@@ -21,13 +21,13 @@ const Login = () => {
       password,
     };
     try {
-    const res: LoginResponseType = await invoke("login", { request });
-    localStorage.setItem("userId", res.user_id.toString());
-    localStorage.setItem("nickname", res.nickname);
-    localStorage.setItem("accessToken", res.token);
+      const res: LoginResponseType = await invoke("login", { request });
+      localStorage.setItem("userId", res.user_id.toString());
+      localStorage.setItem("nickname", res.nickname);
+      localStorage.setItem("accessToken", res.token);
 
-    setIsLogin(true);
-    navigate("/");
+      setIsLogin(true);
+      navigate("/");
     } catch (e) {
       showToast("로그인 실패: " + String(e), "error");
     }
