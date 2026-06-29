@@ -127,7 +127,7 @@ export default function SentenceAllListPage() {
               등록된 학습 내용이 없습니다.
             </div>
           ) : (
-            filteredSentences.map((sentence: SentenceType, index) => {
+            filteredSentences.map((sentence: SentenceType) => {
               let tips = null;
 
               try {
@@ -142,7 +142,7 @@ export default function SentenceAllListPage() {
                     <div className="d-flex justify-content-between align-items-center mb-3">
                       <div>
                         <span className="badge bg-primary me-2">
-                          #{index + 1}
+                          #{sentence.id}
                         </span>
 
                         <span className="badge bg-secondary me-2">

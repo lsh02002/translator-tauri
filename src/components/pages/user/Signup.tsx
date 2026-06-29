@@ -27,8 +27,8 @@ const Signup = () => {
 
     try {
       await invoke("register", { request });
-    } catch (error) {
-      alert("회원가입 중 오류가 발생했습니다.");
+    } catch (e) {
+      alert("회원가입 중 오류가 발생했습니다.:" + String(e));
     }
   };
 

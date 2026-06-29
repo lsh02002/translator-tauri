@@ -42,7 +42,6 @@ pub async fn run() {
         .invoke_handler(tauri::generate_handler![
             command::user_command::register,
             command::user_command::login,
-            command::user_command::create_user,
             command::user_command::get_users,
             command::category_command::create_domain_category,
             command::category_command::get_domain_categories,

@@ -2,12 +2,8 @@ use tauri::State;
 use crate::{AppState, domain::{request::{CreateUserRequest, AuthResponse, LoginRequest}, model::User}, service::user_service};
 
 #[tauri::command]
-pub async fn create_user(state: State<'_, AppState>, request: CreateUserRequest) -> Result<User, String> {
-    user_service::create_user(&state.db, request).await
-}
-
-#[tauri::command]
-pub async fn get_users(state: State<'_, AppState>) -> Result<Vec<User>, String> {
+pub async fn get_users(state: State<'_, AppState>, token: String) -> Result<Vec<User>, String> {
+    let _ = user_service::current_user(&token)?;
     user_service::get_users(&state.db).await
 }
 

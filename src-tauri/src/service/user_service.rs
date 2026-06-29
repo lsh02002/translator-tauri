@@ -3,18 +3,7 @@ use crate::{domain::{request::{CreateUserRequest, AuthResponse, LoginRequest}, m
 use bcrypt::{hash, verify, DEFAULT_COST};
 use crate::repository::{jwt::{create_token, verify_token}};
 
-pub async fn create_user(db: &SqlitePool, request: CreateUserRequest) -> Result<User, String> {
-    if request.email.trim().is_empty() {
-        return Err("email is required".to_string());
-    }
-    if request.nickname.trim().is_empty() {
-        return Err("nickname is required".to_string());
-    }
-
-    user_repository::create_user(db, request.email, request.nickname, request.password, request.role).await.map_err(|e| e.to_string())
-}
-
-pub async fn get_users(db: &SqlitePool) -> Result<Vec<User>, String> {
+pub async fn get_users(db: &SqlitePool) -> Result<Vec<User>, String> {    
     user_repository::find_all(db).await.map_err(|e| e.to_string())
 }
 
@@ -22,6 +11,13 @@ pub async fn register(
     db: &SqlitePool,
     request: CreateUserRequest,
 ) -> Result<AuthResponse, String> {
+    if request.email.trim().is_empty() {
+        return Err("이메일란이 비어있습니다.".to_string());
+    }
+    if request.nickname.trim().is_empty() {
+        return Err("닉네임란이 비어있습니다.".to_string());
+    }
+
     let password =
         hash(&request.password, DEFAULT_COST)
             .map_err(|e| e.to_string())?;
