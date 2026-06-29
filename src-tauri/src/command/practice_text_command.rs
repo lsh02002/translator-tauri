@@ -7,7 +7,7 @@ pub async fn create_practice_text(
     token: String,
     request: CreatePracticeTextRequest,
 ) -> Result<PracticeText, String> {
-    let user_id = current_user(&token)?;    
+    let user_id = current_user(&token)?;
     practice_text_service::create_practice_text(&state.db, user_id, request).await.map_err(|e| e.to_string())
 }
 
