@@ -29,7 +29,7 @@ pub struct CreatePracticeTextRequest {
     pub source_language_type: String,
     pub source_language: String,
     pub target_language: String,
-    pub difficulty: String,
+    pub difficulty: Option<String>,
     pub sample_translation: Option<String>,
     pub tips: Option<String>,
 }

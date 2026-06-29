@@ -25,7 +25,7 @@ pub struct PracticeText {
     pub source_language_type: String,
     pub source_language: String,
     pub target_language: String,
-    pub difficulty: String,
+    pub difficulty: Option<String>,
     pub sample_translation: Option<String>,
     pub tips: Option<String>,
     pub created_at: String,
@@ -38,6 +38,7 @@ pub struct ReviewResult {
     pub score: i64,
     pub review: String,
     pub corrected_answer: String,
+    pub difficulty: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, sqlx::FromRow)]

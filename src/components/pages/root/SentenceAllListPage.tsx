@@ -106,9 +106,9 @@ export default function SentenceAllListPage() {
                 }
               >
                 <option value="전부">전부</option>
-                <option value="초급">초급</option>
-                <option value="중급">중급</option>
-                <option value="고급">고급</option>
+                <option value="쉬움">쉬움</option>
+                <option value="보통">보통</option>
+                <option value="어려움">어려움</option>
               </select>
             </div>
 

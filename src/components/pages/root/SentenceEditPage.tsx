@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { invoke } from "@tauri-apps/api/core";
-import { DifficultyType, SentenceType } from "../../type/Type";
+import { SentenceType } from "../../type/Type";
 import SentenceEditor from "./SentenceEditor";
 import { showToast } from "../../form/Toast";
 
@@ -15,7 +15,6 @@ export default function SentenceEditPage() {
 
   const [sourceLanguage, setSourceLanguage] = useState("");
   const [targetLanguage, setTargetLanguage] = useState("");
-  const [difficulty, setDifficulty] = useState<DifficultyType>("전부");
 
   useEffect(() => {
     const fetchSentence = async () => {
@@ -31,7 +30,6 @@ export default function SentenceEditPage() {
 
         setSourceLanguage(result.source_language);
         setTargetLanguage(result.target_language);
-        setDifficulty(result.difficulty);
         setSourceLanguageType(
           result.source_language_type === "en-US" ? "en-US" : "ko-KR",
         );
@@ -67,7 +65,6 @@ export default function SentenceEditPage() {
           source_language_type: sourceLanguageType,
           source_language: sourceLanguage.trim(),
           target_language: targetLanguage.trim(),
-          difficulty,
         },
       });
 
@@ -86,19 +83,6 @@ export default function SentenceEditPage() {
         </div>
 
         <div className="row g-3 mb-4">
-          <div className="col-md-6">
-            <label className="form-label">난이도</label>
-            <select
-              className="form-select"
-              value={difficulty}
-              onChange={(e) => setDifficulty(e.target.value as DifficultyType)}
-            >
-              <option value="쉬움">쉬움</option>
-              <option value="보통">보통</option>
-              <option value="어려움">어려움</option>
-            </select>
-          </div>
-
           <div className="col-md-6">
             <label className="form-label fw-bold">모드</label>
             <select

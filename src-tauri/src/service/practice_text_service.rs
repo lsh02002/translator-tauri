@@ -17,6 +17,7 @@ pub async fn create_practice_text(
 
     let request = CreatePracticeTextRequest {
         sample_translation: Some(review.translation.clone()),
+        difficulty: Some(review.difficulty.clone()),
         tips: Some(serde_json::to_string(&review)?),
         ..request
     };
@@ -52,6 +53,7 @@ pub async fn update_practice_text(
 
     let request = CreatePracticeTextRequest {
         sample_translation: Some(review.translation.clone()),
+        difficulty: Some(review.difficulty.clone()),
         tips: Some(serde_json::to_string(&review)?),
         ..request
     };

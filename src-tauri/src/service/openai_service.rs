@@ -49,7 +49,8 @@ pub async fn review_translation_answer(
         "is_correct": true,
         "score": 100,
         "review": "...",
-        "corrected_answer": "..."
+        "corrected_answer": "...",
+        "difficulty": "쉬움" | "보통" | "어려움"
         }}
         "#
     );
