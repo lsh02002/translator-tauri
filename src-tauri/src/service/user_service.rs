@@ -18,6 +18,10 @@ pub async fn register(
         return Err("닉네임란이 비어있습니다.".to_string());
     }
 
+    if request.password != request.password_confirm {
+        return Err("비밀번호와 비밀번호 확인이 일치하지 않습니다.".to_string());
+    }
+
     let password =
         hash(&request.password, DEFAULT_COST)
             .map_err(|e| e.to_string())?;

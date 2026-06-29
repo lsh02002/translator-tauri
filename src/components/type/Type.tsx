@@ -5,7 +5,7 @@ export type UserSignupType = {
   email: string;
   nickname: string;
   password: string;
-  passwordConfirm: string;
+  password_confirm: string;
 };
 
 export type LoginResponseType = {

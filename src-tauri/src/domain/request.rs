@@ -5,6 +5,7 @@ pub struct CreateUserRequest {
     pub email: String,
     pub nickname: String,
     pub password: String,
+    pub password_confirm: String,
     pub role: Option<String>,
 }
 #[derive(Debug, Deserialize)]

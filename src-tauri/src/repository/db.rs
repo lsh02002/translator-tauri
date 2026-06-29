@@ -13,7 +13,7 @@ pub async fn init_db(db: &SqlitePool) -> Result<(), sqlx::Error> {
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             email TEXT NOT NULL UNIQUE,
-            nickname TEXT NOT NULL,
+            nickname TEXT NOT NULL UNIQUE,
             password TEXT NOT NULL,
             role TEXT NOT NULL DEFAULT 'student',
             created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP

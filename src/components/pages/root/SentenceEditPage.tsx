@@ -71,7 +71,7 @@ export default function SentenceEditPage() {
         },
       });
 
-      alert("연습 문장이 수정되었습니다.");
+      showToast("연습 문장이 수정되었습니다.", "success");
       navigate(-1);
     } catch (e) {
       showToast("연습 문장 수정에 실패했습니다.: " + String(e), "error");

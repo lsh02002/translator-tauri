@@ -27,9 +27,10 @@ const Login = () => {
       localStorage.setItem("accessToken", res.token);
 
       setIsLogin(true);
+      showToast("로그인에 성공했습니다.", "success");
       navigate("/");
     } catch (e) {
-      showToast("로그인 실패: " + String(e), "error");
+      showToast("로그인에 실패했습니다.: " + String(e), "error");
     }
   };
 

@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import TextInput from "../../form/TextInput";
 import ConfirmButton from "../../form/ConfirmButton";
 import { FaRegistered } from "react-icons/fa6";
 import { UserSignupType } from "../../type/Type";
 import { invoke } from "@tauri-apps/api/core";
 import PasswordVisibleInput from "../../form/PasswordVisibleInput";
+import { showToast } from "../../form/Toast";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
@@ -22,13 +24,15 @@ const Signup = () => {
       email,
       nickname,
       password,
-      passwordConfirm,
+      password_confirm: passwordConfirm,
     };
 
     try {
       await invoke("register", { request });
+      showToast("회원가입이 완료되었습니다.", "success");
+      navigate("/login");
     } catch (e) {
-      alert("회원가입 중 오류가 발생했습니다.:" + String(e));
+      showToast("회원가입 중 오류가 발생했습니다.: " + String(e), "error");
     }
   };
 
