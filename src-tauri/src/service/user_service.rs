@@ -36,10 +36,8 @@ pub async fn register(
         .await
         .map_err(|e| e.to_string())?;
 
-    let token = create_token(user.id, user.email.clone(), user.role.clone())?;
-
     Ok(AuthResponse {
-        token,
+        token: None,
         user_id: user.id,
         email: user.email,
         nickname: user.nickname,
@@ -65,7 +63,7 @@ pub async fn login(
     let token = create_token(user.id, user.email.clone(), user.role.clone())?;
 
     Ok(AuthResponse {
-        token,
+        token: Some(token),
         user_id: user.id,
         email: user.email,
         nickname: user.nickname,
