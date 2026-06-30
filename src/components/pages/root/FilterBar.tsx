@@ -29,8 +29,7 @@ export default function FilterBar({
 
           <select
             className="form-select"
-            value={difficulty}
-            disabled={mode === "view"}
+            value={difficulty}            
             onChange={(e) => {
               setDifficulty(e.target.value as DifficultyType);
 
@@ -39,7 +38,7 @@ export default function FilterBar({
               }
             }}
           >
-            <option value="전부">전체</option>
+            <option value="전부">전부</option>
             <option value="쉬움">쉬움</option>
             <option value="보통">보통</option>
             <option value="어려움">어려움</option>
