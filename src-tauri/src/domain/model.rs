@@ -45,7 +45,7 @@ pub struct ReviewResult {
 #[derive(Debug, Serialize, Deserialize, sqlx::FromRow)]
 pub struct Term {
     pub id: i64,
-    pub domain_category_id: i64,
+    pub domain_category_name: Option<String>,
     pub source_term: String,
     pub target_term: String,
     pub description: Option<String>,

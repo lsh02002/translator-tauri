@@ -86,18 +86,22 @@ pub async fn update_term_note(
     Ok(())
 }
 
-pub async fn find_all_terms(db: &SqlitePool) -> Result<Vec<Term>, sqlx::Error> {
+pub async fn find_all_terms(
+    db: &SqlitePool,
+) -> Result<Vec<Term>, sqlx::Error> {
     sqlx::query_as::<_, Term>(
         r#"
         SELECT
-            id,
-            domain_category_id,
-            source_term,
-            target_term,
-            description,
-            created_at
-        FROM terms
-        ORDER BY id ASC
+            t.id,
+            dc.name AS domain_category_name,
+            t.source_term,
+            t.target_term,
+            t.description,
+            t.created_at
+        FROM terms t
+        LEFT JOIN domain_categories dc
+            ON t.domain_category_id = dc.id
+        ORDER BY t.id ASC
         "#,
     )
     .fetch_all(db)
@@ -111,14 +115,16 @@ pub async fn find_term_by_id(
     sqlx::query_as::<_, Term>(
         r#"
         SELECT
-            id,
-            domain_category_id,
-            source_term,
-            target_term,
-            description,
-            created_at
-        FROM terms
-        WHERE id = ?
+            t.id,
+            dc.name AS domain_category_name,
+            t.source_term,
+            t.target_term,
+            t.description,
+            t.created_at
+        FROM terms t
+        LEFT JOIN domain_categories dc
+            ON t.domain_category_id = dc.id
+        WHERE t.id = ?
         "#,
     )
     .bind(id)
