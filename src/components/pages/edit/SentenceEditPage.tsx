@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { invoke } from "@tauri-apps/api/core";
 import { SentenceType } from "../../type/Type";
-import SentenceEditor from "./SentenceEditor";
 import { showToast } from "../../form/Toast";
 
 export default function SentenceEditPage() {
@@ -98,13 +97,29 @@ export default function SentenceEditPage() {
           </div>
         </div>
 
-        <SentenceEditor
-          sourceLanguage={sourceLanguage}
-          targetLanguage={targetLanguage}
-          isWritable={true}
-          setSourceLanguage={setSourceLanguage}
-          setTargetLanguage={setTargetLanguage}
-        />
+        <div className="d-flex justify-content-between mt-3 gap-2">
+          <div className="w-100">
+            <label className="form-label fw-bold">원문 문장</label>
+
+            <textarea
+              className="form-control"
+              placeholder="여기에 원문 문장을 입력하세요..."
+              value={sourceLanguage}
+              onChange={(e) => setSourceLanguage(e.target.value)}
+            />
+          </div>
+
+          <div className="w-100">
+            <label className="form-label fw-bold">내가 연습한 번역</label>
+
+            <textarea
+              className="form-control"
+              placeholder="여기에 번역을 입력하세요..."
+              value={targetLanguage}
+              onChange={(e) => setTargetLanguage(e.target.value)}
+            />
+          </div>
+        </div>
 
         <div className="d-flex gap-2 justify-content-end mt-4">
           <button

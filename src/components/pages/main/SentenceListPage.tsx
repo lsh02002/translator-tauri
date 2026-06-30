@@ -4,11 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import { DifficultyType, ModeType, SentenceType } from "../../type/Type";
 import ActionButtons from "./ActionButtons";
-import SentenceReview from "./SentenceReview";
-import SentenceEditor from "./SentenceEditor";
 import FilterBar from "./FilterBar";
 import Header from "./Header";
-import SentenceHeader from "./SentenceHeader";
 import { useLoginStore } from "../../zustand/ZustandLogin";
 import { showToast } from "../../form/Toast";
 
@@ -134,6 +131,8 @@ export default function SentenceListPage() {
     navigate(`/sentences/${current.id}/edit`);
   };
 
+  const badgeText = difficulty ?? "문장 없음";
+
   return (
     <main className="app">
       <Header mode={mode} index={index} totalCount={filteredSources.length} />
@@ -150,26 +149,63 @@ export default function SentenceListPage() {
       />
 
       <section className="glass-card p-4">
-        <SentenceHeader
-          mode={mode}
-          difficulty={current?.difficulty}
-          sourceLanguage={sourceLanguage}
-          speakSentence={speakSentence}
-        />
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <span className="badge rounded-pill text-primary bg-primary-subtle px-3 py-2">
+            {badgeText}
+          </span>
 
-        <SentenceEditor
-          sourceLanguage={sourceLanguage}
-          targetLanguage={targetLanguage}
-          isWritable={false}
-          setSourceLanguage={setSourceLanguage}
-          setTargetLanguage={setTargetLanguage}
-        />
+          <button
+            className="btn btn-primary icon-btn"
+            title="문장 읽기"
+            onClick={speakSentence}
+            disabled={!sourceLanguage.trim()}
+          >
+            🔊
+          </button>
+        </div>
 
-        <SentenceReview
-          mode={mode}
-          sampleTranslation={current?.sample_translation}
-          tips={tips}
-        />
+        <div className="d-flex justify-content-between mt-3 gap-2">
+          <div className="w-100">
+            <label className="form-label fw-bold">원문 문장</label>
+
+            <textarea
+              className="form-control"
+              placeholder="여기에 원문 문장을 입력하세요..."
+              value={sourceLanguage}
+              readOnly={true}
+              onChange={(e) => setSourceLanguage(e.target.value)}
+            />
+          </div>
+
+          <div className="w-100">
+            <label className="form-label fw-bold">내가 연습한 번역</label>
+
+            <textarea
+              className="form-control"
+              placeholder="여기에 번역을 입력하세요..."
+              value={targetLanguage}
+              readOnly={true}
+              onChange={(e) => setTargetLanguage(e.target.value)}
+            />
+          </div>
+        </div>
+
+        <div className="mt-4 pt-3 border-top">
+          <h2 className="fs-6 text-secondary">예시 번역</h2>
+          <p className="fs-5 fw-bold">{current?.sample_translation}</p>
+
+          <h2 className="fs-6 text-secondary mt-3">번역 리뷰</h2>
+
+          {tips ? (
+            <ul>
+              <li>정답 여부: {tips.is_correct ? "정답" : "오답"}</li>
+              <li>점수: {tips.score}</li>
+              <li>리뷰 평가: {tips.review}</li>
+            </ul>
+          ) : (
+            <p className="text-secondary mb-0">표시할 번역 리뷰가 없습니다.</p>
+          )}
+        </div>
 
         <ActionButtons
           mode={mode}

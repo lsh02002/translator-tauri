@@ -5,10 +5,10 @@ import { useEffect } from "react";
 import { useLoginStore } from "./components/zustand/ZustandLogin";
 import { BackwardButton } from "./components/form/BackwardButton";
 import { BootstrapToastContainer } from "./components/form/Toast";
-import SentenceCreatePage from "./components/pages/root/SetenceCreatePage";
-import SentenceEditPage from "./components/pages/root/SentenceEditPage";
-import SentenceListPage from "./components/pages/root/SentenceListPage";
-import SentenceAllListPage from "./components/pages/root/SentenceAllListPage";
+import SentenceCreatePage from "./components/pages/create/SetenceCreatePage";
+import SentenceEditPage from "./components/pages/edit/SentenceEditPage";
+import SentenceListPage from "./components/pages/main/SentenceListPage";
+import SentenceAllListPage from "./components/pages/list/SentenceAllListPage";
 
 export default function App() {
   const { setIsLogin } = useLoginStore();
