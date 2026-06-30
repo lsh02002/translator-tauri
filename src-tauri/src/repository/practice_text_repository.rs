@@ -1,14 +1,12 @@
 use sqlx::SqlitePool;
 use crate::domain::{request::CreatePracticeTextRequest, model::PracticeText};
 
-pub async fn create(db: &SqlitePool, user_id: i64, request: CreatePracticeTextRequest) -> Result<PracticeText, sqlx::Error> {
-    sqlx::query_as::<_, PracticeText>(
+pub async fn create(db: &SqlitePool, user_id: i64, request: CreatePracticeTextRequest) -> Result<(), sqlx::Error> {
+    sqlx::query(
         r#"
         INSERT INTO practice_texts
         (user_id, domain_category_id, source_language_type, source_language, target_language, difficulty, sample_translation, tips)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        RETURNING id, user_id, domain_category_id, source_language_type, source_language, target_language,
-                  difficulty, sample_translation, tips, created_at
         "#,
     )
     .bind(user_id)
@@ -19,8 +17,10 @@ pub async fn create(db: &SqlitePool, user_id: i64, request: CreatePracticeTextRe
     .bind(request.difficulty)
     .bind(request.sample_translation)
     .bind(request.tips)
-    .fetch_one(db)
-    .await
+    .execute(db)
+    .await?;
+
+    Ok(())
 }
 
 pub async fn update(
@@ -28,8 +28,8 @@ pub async fn update(
     id: i64,
     user_id: i64,
     request: CreatePracticeTextRequest,
-) -> Result<PracticeText, sqlx::Error> {
-    sqlx::query_as::<_, PracticeText>(
+) -> Result<(), sqlx::Error> {
+    sqlx::query(
         r#"
         UPDATE practice_texts
         SET
@@ -42,17 +42,6 @@ pub async fn update(
             sample_translation = ?,
             tips = ?
         WHERE id = ?
-        RETURNING
-            id,
-            user_id,
-            domain_category_id,
-            source_language_type,
-            source_language,
-            target_language,
-            difficulty,
-            sample_translation,
-            tips,
-            created_at
         "#,
     )
     .bind(user_id)
@@ -64,18 +53,31 @@ pub async fn update(
     .bind(request.sample_translation)
     .bind(request.tips)
     .bind(id)
-    .fetch_one(db)
-    .await
+    .execute(db)
+    .await?;
+
+    Ok(())
 }
 
 pub async fn find_all(db: &SqlitePool, user_id: i64) -> Result<Vec<PracticeText>, sqlx::Error> {
     sqlx::query_as::<_, PracticeText>(
         r#"
-        SELECT id, user_id, domain_category_id, source_language_type, source_language, target_language,
-               difficulty, sample_translation, tips, created_at
-        FROM practice_texts
-        WHERE user_id = ?
-        ORDER BY id ASC
+        SELECT
+            pt.id,
+            pt.user_id,            
+            dc.name AS domain_category_name,
+            pt.source_language_type,
+            pt.source_language,
+            pt.target_language,
+            pt.difficulty,
+            pt.sample_translation,
+            pt.tips,
+            pt.created_at
+        FROM practice_texts pt
+        LEFT JOIN domain_categories dc
+            ON pt.domain_category_id = dc.id
+        WHERE pt.user_id = ?
+        ORDER BY pt.id ASC
         "#,
     )
     .bind(user_id)
@@ -86,10 +88,21 @@ pub async fn find_all(db: &SqlitePool, user_id: i64) -> Result<Vec<PracticeText>
 pub async fn find_by_id(db: &SqlitePool, id: i64, user_id: i64) -> Result<PracticeText, sqlx::Error> {
     sqlx::query_as::<_, PracticeText>(
         r#"
-        SELECT id, user_id, domain_category_id, source_language_type, source_language, target_language,
-               difficulty, sample_translation, tips, created_at
-        FROM practice_texts
-        WHERE id = ? AND user_id = ?
+        SELECT
+            pt.id,
+            pt.user_id,            
+            dc.name AS domain_category_name,
+            pt.source_language_type,
+            pt.source_language,
+            pt.target_language,
+            pt.difficulty,
+            pt.sample_translation,
+            pt.tips,
+            pt.created_at
+        FROM practice_texts pt
+        LEFT JOIN domain_categories dc
+            ON pt.domain_category_id = dc.id
+        WHERE pt.id = ? AND pt.user_id = ?
         "#,
     )
     .bind(id)

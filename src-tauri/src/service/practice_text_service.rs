@@ -6,7 +6,7 @@ pub async fn create_practice_text(
     db: &SqlitePool,
     user_id: i64,
     request: CreatePracticeTextRequest,
-) -> Result<PracticeText, Box<dyn std::error::Error>> {
+) -> Result<(), Box<dyn std::error::Error>> {
     let review = review_translation_answer(
         &request.source_language_type,
         &request.source_language,
@@ -22,9 +22,9 @@ pub async fn create_practice_text(
         ..request
     };
     
-    let practice_text = practice_text_repository::create(db, user_id, request).await.map_err(|e| e.to_string())?;
+    let _ = practice_text_repository::create(db, user_id, request).await.map_err(|e| e.to_string())?;
 
-    Ok(practice_text)
+    Ok(())
 }
 
 pub async fn update_practice_text(
@@ -32,7 +32,7 @@ pub async fn update_practice_text(
     id: i64,
     user_id: i64,
     request: CreatePracticeTextRequest,
-) -> Result<PracticeText, Box<dyn std::error::Error>> {
+) -> Result<(), Box<dyn std::error::Error>> {
     let current = practice_text_repository::find_by_id(db, id, user_id).await?;
 
     // 변경 여부 확인
@@ -58,9 +58,9 @@ pub async fn update_practice_text(
         ..request
     };
     
-    let practice_text = practice_text_repository::update(db, id, user_id, request).await.map_err(|e| e.to_string())?;
+    let _ = practice_text_repository::update(db, id, user_id, request).await.map_err(|e| e.to_string())?;
 
-    Ok(practice_text)
+    Ok(())
 }
 
 pub async fn get_practice_texts(db: &SqlitePool, user_id: i64) -> Result<Vec<PracticeText>, String> {

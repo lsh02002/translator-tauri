@@ -34,6 +34,12 @@ pub struct CreatePracticeTextRequest {
     pub tips: Option<String>,
 }
 
+#[derive(Debug, Serialize, Deserialize, sqlx::FromRow)]
+pub struct CreateDomainCategoryRequest {    
+    pub name: String,
+    pub description: Option<String>,
+}
+
 #[derive(Debug, Deserialize)]
 pub struct CreateTermRequest {
     pub domain_category_id: i64,
@@ -43,8 +49,7 @@ pub struct CreateTermRequest {
 }
 
 #[derive(Debug, Deserialize)]
-pub struct CreateTermNoteRequest {
-    pub user_id: i64,
+pub struct CreateTermNoteRequest {    
     pub term_id: i64,
     pub memo: Option<String>,
 }

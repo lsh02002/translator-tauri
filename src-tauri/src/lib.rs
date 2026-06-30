@@ -44,13 +44,19 @@ pub async fn run() {
             command::user_command::login,
             command::user_command::get_users,
             command::category_command::create_domain_category,
+            command::category_command::update_domain_category,
             command::category_command::get_domain_categories,
+            command::category_command::delete_domain_category,
             command::practice_text_command::create_practice_text,
             command::practice_text_command::update_practice_text,
             command::practice_text_command::get_practice_texts,
             command::practice_text_command::get_practice_text,
             command::term_command::create_term,
             command::term_command::create_term_note,
+            command::term_command::update_term,
+            command::term_command::update_term_note,
+            command::term_command::delete_term,
+            command::term_command::delete_term_note,
         ])
         .run(tauri::generate_context!())
         .expect("Tauri app failed");

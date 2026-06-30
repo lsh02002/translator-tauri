@@ -21,8 +21,10 @@ pub async fn init_db(db: &SqlitePool) -> Result<(), sqlx::Error> {
 
         CREATE TABLE IF NOT EXISTS domain_categories (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
             name TEXT NOT NULL UNIQUE,
-            description TEXT
+            description TEXT,
+            FOREIGN KEY (user_id) REFERENCES users(id)
         );
 
         CREATE TABLE IF NOT EXISTS practice_texts (

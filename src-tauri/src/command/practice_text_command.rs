@@ -6,7 +6,7 @@ pub async fn create_practice_text(
     state: State<'_, AppState>,
     token: String,
     request: CreatePracticeTextRequest,
-) -> Result<PracticeText, String> {
+) -> Result<(), String> {
     let user_id = current_user(&token)?;
     practice_text_service::create_practice_text(&state.db, user_id, request).await.map_err(|e| e.to_string())
 }
@@ -17,7 +17,7 @@ pub async fn update_practice_text(
     token: String,
     id: i64,
     request: CreatePracticeTextRequest,
-) -> Result<PracticeText, String> {
+) -> Result<(), String> {
     let user_id = current_user(&token)?;
     practice_text_service::update_practice_text(&state.db, id, user_id, request).await.map_err(|e| e.to_string())
 }

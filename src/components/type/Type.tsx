@@ -18,7 +18,7 @@ export type LoginResponseType = {
 
 export type SentenceType = {
   id: number;
-  domain_category_id: number | null;
+  domain_category_name: string | null;
   source_language_type: string;
   source_language: string;
   target_language: string;
