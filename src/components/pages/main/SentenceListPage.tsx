@@ -131,7 +131,7 @@ export default function SentenceListPage() {
     navigate(`/sentences/${current.id}/edit`);
   };
 
-  const badgeText = difficulty ?? "문장 없음";
+  const badgeText = current?.difficulty ?? "문장 없음";
 
   return (
     <main className="app">
