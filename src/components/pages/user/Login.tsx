@@ -4,10 +4,10 @@ import { SlLogin } from "react-icons/sl";
 import { useLoginStore } from "../../zustand/ZustandLogin";
 import { invoke } from "@tauri-apps/api/core";
 import { LoginResponseType } from "../../type/Type";
-import TextInput from "../../form/TextInput";
-import PasswordVisibleInput from "../../form/PasswordVisibleInput";
-import ConfirmButton from "../../form/ConfirmButton";
-import { showToast } from "../../form/Toast";
+import TextInput from "../../form/input/TextInput";
+import PasswordVisibleInput from "../../form/input/PasswordVisibleInput";
+import ConfirmButton from "../../form/button/ConfirmButton";
+import { showToast } from "../../form/toast/Toast";
 
 const Login = () => {
   const navigate = useNavigate();

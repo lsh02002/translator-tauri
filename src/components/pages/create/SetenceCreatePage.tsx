@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { invoke } from "@tauri-apps/api/core";
-import { showToast } from "../../form/Toast";
+import { showToast } from "../../form/toast/Toast";
 
 export default function SentenceCreatePage() {
   const navigate = useNavigate();

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { invoke } from "@tauri-apps/api/core";
 import { SentenceType } from "../../type/Type";
-import { showToast } from "../../form/Toast";
+import { showToast } from "../../form/toast/Toast";
 
 export default function SentenceEditPage() {
   const { id } = useParams();

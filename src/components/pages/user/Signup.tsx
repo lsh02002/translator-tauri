@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import TextInput from "../../form/TextInput";
-import ConfirmButton from "../../form/ConfirmButton";
+import TextInput from "../../form/input/TextInput";
+import ConfirmButton from "../../form/button/ConfirmButton";
 import { FaRegistered } from "react-icons/fa6";
 import { UserSignupType } from "../../type/Type";
 import { invoke } from "@tauri-apps/api/core";
-import PasswordVisibleInput from "../../form/PasswordVisibleInput";
-import { showToast } from "../../form/Toast";
+import PasswordVisibleInput from "../../form/input/PasswordVisibleInput";
+import { showToast } from "../../form/toast/Toast";
 
 const Signup = () => {
   const navigate = useNavigate();

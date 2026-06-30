@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { DifficultyType, SentenceType } from "../../type/Type";
 import { useLoginStore } from "../../zustand/ZustandLogin";
-import { showToast } from "../../form/Toast";
+import { showToast } from "../../form/toast/Toast";
 
 export default function SentenceAllListPage() {
   const navigate = useNavigate();

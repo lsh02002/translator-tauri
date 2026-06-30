@@ -7,7 +7,7 @@ import ActionButtons from "./ActionButtons";
 import FilterBar from "./FilterBar";
 import Header from "./Header";
 import { useLoginStore } from "../../zustand/ZustandLogin";
-import { showToast } from "../../form/Toast";
+import { showToast } from "../../form/toast/Toast";
 
 export default function SentenceListPage() {
   const navigate = useNavigate();
