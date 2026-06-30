@@ -215,9 +215,6 @@ export default function SentenceListPage() {
           goNext={goNext}
           startEditMode={startEditMode}
           startCreateMode={startCreateMode}
-          createPracticeText={() => {}}
-          updatePracticeText={() => {}}
-          cancelWriteMode={() => {}}
         />
       </section>
     </main>

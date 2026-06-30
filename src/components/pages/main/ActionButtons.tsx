@@ -8,9 +8,6 @@ type Props = {
   goNext: () => void;
   startEditMode: () => void;
   startCreateMode: () => void;
-  createPracticeText: () => void;
-  updatePracticeText: () => void;
-  cancelWriteMode: () => void;
 };
 
 export default function ActionButtons({
@@ -21,9 +18,6 @@ export default function ActionButtons({
   goNext,
   startEditMode,
   startCreateMode,
-  createPracticeText,
-  updatePracticeText,
-  cancelWriteMode,
 }: Props) {
   const navigate = useNavigate();
 
@@ -62,42 +56,6 @@ export default function ActionButtons({
                 onClick={startCreateMode}
               >
                 새 문장 생성
-              </button>
-            </>
-          )}
-
-          {mode === "create" && (
-            <>
-              <button
-                className="btn btn-success fw-bold"
-                onClick={createPracticeText}
-              >
-                생성 저장
-              </button>
-
-              <button
-                className="btn btn-light fw-bold"
-                onClick={cancelWriteMode}
-              >
-                취소
-              </button>
-            </>
-          )}
-
-          {mode === "edit" && (
-            <>
-              <button
-                className="btn btn-warning fw-bold"
-                onClick={updatePracticeText}
-              >
-                수정 저장
-              </button>
-
-              <button
-                className="btn btn-light fw-bold"
-                onClick={cancelWriteMode}
-              >
-                취소
               </button>
             </>
           )}
