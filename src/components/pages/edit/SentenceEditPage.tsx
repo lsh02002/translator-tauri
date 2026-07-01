@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { invoke } from "@tauri-apps/api/core";
-import { SentenceType } from "../../type/Type";
+import { DifficultyType, SentenceType } from "../../type/Type";
 import { showToast } from "../../form/toast/Toast";
 
 export default function SentenceEditPage() {
@@ -15,6 +15,7 @@ export default function SentenceEditPage() {
   const [sourceLanguage, setSourceLanguage] = useState("");
   const [targetLanguage, setTargetLanguage] = useState("");
   const [sampleTranslation, setSampleTranslation] = useState("");
+  const [difficulty, setDifficulty] = useState<DifficultyType>("전부");
   const [tips, setTips] = useState<{
     is_correct: boolean;
     score: number;
@@ -38,7 +39,9 @@ export default function SentenceEditPage() {
         result.source_language_type === "en-US" ? "en-US" : "ko-KR",
       );
       setSampleTranslation(result.sample_translation ?? "");
+      setDifficulty(result.difficulty ?? "전부");
       setTips(JSON.parse(result.tips) ?? null);
+      showToast("연습 문장이 수정되었습니다.", "success");
     } catch (e) {
       showToast("문장 정보를 불러오는 데 실패했습니다.: " + String(e), "error");
     }
@@ -136,6 +139,7 @@ export default function SentenceEditPage() {
             <ul>
               <li>정답 여부: {tips.is_correct ? "정답" : "오답"}</li>
               <li>점수: {tips.score}</li>
+              <li>난이도: {difficulty}</li>
               <li>리뷰 평가: {tips.review}</li>
             </ul>
           ) : (
