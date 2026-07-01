@@ -14,32 +14,37 @@ export default function SentenceEditPage() {
 
   const [sourceLanguage, setSourceLanguage] = useState("");
   const [targetLanguage, setTargetLanguage] = useState("");
+  const [sampleTranslation, setSampleTranslation] = useState("");
+  const [tips, setTips] = useState<{
+    is_correct: boolean;
+    score: number;
+    review: string;
+  } | null>(null);
+
+  const fetchSentence = async () => {
+    if (!id) return;
+
+    try {
+      const token = localStorage.getItem("accessToken");
+
+      const result = await invoke<SentenceType>("get_practice_text", {
+        token,
+        id: Number(id),
+      });
+
+      setSourceLanguage(result.source_language);
+      setTargetLanguage(result.target_language);
+      setSourceLanguageType(
+        result.source_language_type === "en-US" ? "en-US" : "ko-KR",
+      );
+      setSampleTranslation(result.sample_translation ?? "");
+      setTips(JSON.parse(result.tips) ?? null);
+    } catch (e) {
+      showToast("문장 정보를 불러오는 데 실패했습니다.: " + String(e), "error");
+    }
+  };
 
   useEffect(() => {
-    const fetchSentence = async () => {
-      if (!id) return;
-
-      try {
-        const token = localStorage.getItem("accessToken");
-
-        const result = await invoke<SentenceType>("get_practice_text", {
-          token,
-          id: Number(id),
-        });
-
-        setSourceLanguage(result.source_language);
-        setTargetLanguage(result.target_language);
-        setSourceLanguageType(
-          result.source_language_type === "en-US" ? "en-US" : "ko-KR",
-        );
-      } catch (e) {
-        showToast(
-          "문장 정보를 불러오는 데 실패했습니다.: " + String(e),
-          "error",
-        );
-      }
-    };
-
     fetchSentence();
   }, [id]);
 
@@ -67,8 +72,8 @@ export default function SentenceEditPage() {
         },
       });
 
+      fetchSentence();
       showToast("연습 문장이 수정되었습니다.", "success");
-      navigate(-1);
     } catch (e) {
       showToast("연습 문장 수정에 실패했습니다.: " + String(e), "error");
     }
@@ -119,6 +124,23 @@ export default function SentenceEditPage() {
               onChange={(e) => setTargetLanguage(e.target.value)}
             />
           </div>
+        </div>
+
+        <div className="mt-4 pt-3 border-top">
+          <h2 className="fs-6 text-secondary">예시 번역</h2>
+          <p className="fs-5 fw-bold">{sampleTranslation}</p>
+
+          <h2 className="fs-6 text-secondary mt-3">번역 리뷰</h2>
+
+          {tips ? (
+            <ul>
+              <li>정답 여부: {tips.is_correct ? "정답" : "오답"}</li>
+              <li>점수: {tips.score}</li>
+              <li>리뷰 평가: {tips.review}</li>
+            </ul>
+          ) : (
+            <p className="text-secondary mb-0">표시할 번역 리뷰가 없습니다.</p>
+          )}
         </div>
 
         <div className="d-flex gap-2 justify-content-end mt-4">
