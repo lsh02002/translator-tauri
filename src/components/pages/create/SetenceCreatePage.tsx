@@ -15,7 +15,7 @@ export default function SentenceCreatePage() {
 
   const createPracticeText = async () => {
     if (!sourceLanguage.trim()) {
-      alert("원문 문장이 비어있습니다.");
+      showToast("원문 문장이 비어있습니다.", "error");
       return;
     }
 

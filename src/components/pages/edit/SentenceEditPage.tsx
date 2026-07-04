@@ -53,12 +53,12 @@ export default function SentenceEditPage() {
 
   const updatePracticeText = async () => {
     if (!id) {
-      alert("수정할 문장 ID가 없습니다.");
+      showToast("수정할 문장 ID가 없습니다.", "error");
       return;
     }
 
     if (!sourceLanguage.trim()) {
-      alert("원문 문장이 비어있습니다.");
+      showToast("원문 문장이 비어있습니다.", "error");
       return;
     }
 
