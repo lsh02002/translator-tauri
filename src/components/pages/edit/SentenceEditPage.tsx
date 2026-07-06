@@ -40,8 +40,7 @@ export default function SentenceEditPage() {
       );
       setSampleTranslation(result.sample_translation ?? "");
       setDifficulty(result.difficulty ?? "전부");
-      setTips(JSON.parse(result.tips) ?? null);
-      showToast("연습 문장이 수정되었습니다.", "success");
+      setTips(JSON.parse(result.tips) ?? null);      
     } catch (e) {
       showToast("문장 정보를 불러오는 데 실패했습니다.: " + String(e), "error");
     }
