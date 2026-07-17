@@ -69,6 +69,7 @@ export default function SentenceCreatePage() {
             <textarea
               className="form-control"
               placeholder="여기에 원문 문장을 입력하세요..."
+              rows={4}
               value={sourceLanguage}
               onChange={(e) => setSourceLanguage(e.target.value)}
             />
@@ -80,6 +81,7 @@ export default function SentenceCreatePage() {
             <textarea
               className="form-control"
               placeholder="여기에 번역을 입력하세요..."
+              rows={4}
               value={targetLanguage}
               onChange={(e) => setTargetLanguage(e.target.value)}
             />

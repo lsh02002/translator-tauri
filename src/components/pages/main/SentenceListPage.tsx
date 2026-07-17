@@ -173,6 +173,7 @@ export default function SentenceListPage() {
               placeholder="여기에 원문 문장을 입력하세요..."
               value={sourceLanguage}
               readOnly={true}
+              rows={4}
               onChange={(e) => setSourceLanguage(e.target.value)}
             />
           </div>
@@ -185,6 +186,7 @@ export default function SentenceListPage() {
               placeholder="여기에 번역을 입력하세요..."
               value={targetLanguage}
               readOnly={true}
+              rows={4}
               onChange={(e) => setTargetLanguage(e.target.value)}
             />
           </div>
