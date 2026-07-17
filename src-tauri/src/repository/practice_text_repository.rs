@@ -64,7 +64,8 @@ pub async fn find_all(db: &SqlitePool, user_id: i64) -> Result<Vec<PracticeText>
         r#"
         SELECT
             pt.id,
-            pt.user_id,            
+            pt.user_id,
+            pt.domain_category_id,
             dc.name AS domain_category_name,
             pt.source_language_type,
             pt.source_language,
@@ -91,6 +92,7 @@ pub async fn find_by_id(db: &SqlitePool, id: i64, user_id: i64) -> Result<Practi
         SELECT
             pt.id,
             pt.user_id,            
+            pt.domain_category_id,
             dc.name AS domain_category_name,
             pt.source_language_type,
             pt.source_language,

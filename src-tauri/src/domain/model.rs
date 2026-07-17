@@ -22,7 +22,8 @@ pub struct DomainCategory {
 pub struct PracticeText {
     pub id: i64,
     pub user_id: i64,
-    pub domain_category_name: Option<String>,    
+    pub domain_category_id: Option<i64>,
+    pub domain_category_name: Option<String>,
     pub source_language_type: String,
     pub source_language: String,
     pub target_language: String,

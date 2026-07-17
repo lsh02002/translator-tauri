@@ -39,6 +39,7 @@ pub async fn update_practice_text(
     if current.source_language_type == request.source_language_type
         && current.source_language == request.source_language
         && current.target_language == request.target_language
+        && current.domain_category_id == request.domain_category_id
     {
         return Err("변경사항이 없습니다.".into());
     }

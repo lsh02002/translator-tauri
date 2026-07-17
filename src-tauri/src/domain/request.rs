@@ -25,7 +25,7 @@ pub struct AuthResponse {
 
 #[derive(Debug, Deserialize)]
 pub struct CreatePracticeTextRequest {
-    pub domain_category_id: Option<i64>,    
+    pub domain_category_id: Option<i64>,
     pub source_language_type: String,
     pub source_language: String,
     pub target_language: String,

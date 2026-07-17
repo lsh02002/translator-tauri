@@ -2,13 +2,16 @@ import { ReactNode, useEffect, useMemo, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { useNavigate } from "react-router-dom";
 
-import { DifficultyType, SentenceType } from "../../type/Type";
+import { DifficultyType, SentenceType, CategoryType } from "../../type/Type";
 import { useLoginStore } from "../../zustand/ZustandLogin";
 import { showToast } from "../../form/toast/Toast";
 
 export default function SentenceAllListPage() {
   const navigate = useNavigate();
   const { isLogin } = useLoginStore();
+
+  const [categoryName, setCategoryName] = useState<string | null>(null);
+  const [categories, setCategories] = useState<CategoryType[]>([]);
 
   const [sentences, setSentences] = useState<SentenceType[]>([]);
   const [difficulty, setDifficulty] = useState<DifficultyType>("전부");
@@ -40,10 +43,33 @@ export default function SentenceAllListPage() {
     fetchSentences();
   }, [isLogin]);
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const token = localStorage.getItem("accessToken");
+
+        const result = await invoke<CategoryType[]>("get_domain_categories", {
+          token,
+        });
+
+        setCategories(result);
+      } catch (e) {
+        showToast(
+          "카테고리 데이터를 불러오는 데 실패했습니다.: " + String(e),
+          "error",
+        );
+      }
+    })();
+  }, []);
+
   const filteredSentences = useMemo(() => {
     return sentences.filter((sentence) => {
       const matchDifficulty =
         difficulty === "전부" || sentence.difficulty === difficulty;
+
+      const matchCategory =
+        categoryName === "" ||
+        sentence.domain_category_name === categoryName;
 
       const lowerKeyword = keyword.trim().toLowerCase();
 
@@ -54,9 +80,9 @@ export default function SentenceAllListPage() {
         sentence.sample_translation?.toLowerCase().includes(lowerKeyword) ||
         sentence.tips?.toLowerCase().includes(lowerKeyword);
 
-      return matchDifficulty && matchKeyword;
+      return matchDifficulty && matchCategory && matchKeyword;
     });
-  }, [sentences, difficulty, keyword]);
+  }, [sentences, difficulty, categoryName, keyword]);
 
   function highlightText(text: string, query: string): ReactNode {
     const trimmed = query.trim();
@@ -97,7 +123,23 @@ export default function SentenceAllListPage() {
           </div>
 
           <div className="row g-2 mb-4">
-            <div className="col-md-3">
+            <div className="col-md-6 w-50">
+              <select
+                className="form-select"
+                value={categoryName || ""}
+                onChange={(e) =>
+                  setCategoryName(String(e.target.value) || null)
+                }
+              >
+                <option value="">카테고리를 선택하세요</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.name}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="col-md-3 w-50">
               <select
                 className="form-select"
                 value={difficulty}
@@ -112,7 +154,7 @@ export default function SentenceAllListPage() {
               </select>
             </div>
 
-            <div className="col-md-9">
+            <div className="col-md-9 w-100">
               <input
                 className="form-control"
                 placeholder="원문, 번역, AI 번역, 점수, 리뷰 검색"
