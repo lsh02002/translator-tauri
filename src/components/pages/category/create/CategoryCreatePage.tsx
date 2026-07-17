@@ -100,6 +100,7 @@ export default function CategoryCreatePage() {
                 onClick={() => {
                   setCategoryName("");
                   setDescription("");
+                  navigate(-1);
                 }}
               >
                 취소
