@@ -35,17 +35,17 @@ export default function CategoryCreatePage() {
 
   return (
     <main className="min-vh-100 bg-light">
-      <div className="container py-5">
-        <div className="mx-auto" style={{ maxWidth: "560px" }}>
+      <div className="p-3">
+        <div>
           <header className="mb-4">
-            <h1 className="h3 fw-bold mb-2">새 카테고리</h1>
+            <h1>새 카테고리</h1>
 
             <p className="text-secondary mb-0">
               파일을 정리할 카테고리를 만들어 보세요.
             </p>
           </header>
 
-          <div className="card-body p-4">
+          <div className="card-body p-2">
             <div className="mb-4">
               <label htmlFor="categoryName" className="form-label fw-semibold">
                 카테고리 이름

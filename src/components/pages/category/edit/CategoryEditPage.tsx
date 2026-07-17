@@ -84,11 +84,8 @@ export default function CategoryEditPage() {
   if (isLoading) {
     return (
       <main className="min-vh-100 bg-light">
-        <div className="container py-5">
-          <div
-            className="d-flex justify-content-center align-items-center"
-            style={{ minHeight: "320px" }}
-          >
+        <div className="p-4">
+          <div className="d-flex justify-content-center align-items-center">
             <div className="text-center">
               <div
                 className="spinner-border text-primary mb-3"
@@ -107,98 +104,92 @@ export default function CategoryEditPage() {
 
   return (
     <main className="min-vh-100 bg-light">
-      <div className="container py-5">
-        <div className="mx-auto" style={{ maxWidth: "560px" }}>
+      <div className="p-4">
+        <div className="mx-auto">
           <header className="mb-4">
-            <h1 className="h3 fw-bold mb-2">카테고리 수정</h1>
+            <h1>카테고리 수정</h1>
 
             <p className="text-secondary mb-0">
               카테고리 이름과 설명을 수정하세요.
             </p>
           </header>
 
-          <div className="bg-white border rounded-3 p-4">
-            <div className="mb-4">
-              <label htmlFor="categoryName" className="form-label fw-semibold">
-                카테고리 이름
-              </label>
+          <div className="mb-4">
+            <label htmlFor="categoryName" className="form-label fw-semibold">
+              카테고리 이름
+            </label>
 
-              <input
-                id="categoryName"
-                type="text"
-                className="form-control"
-                placeholder="예: 영어 학습 자료"
-                value={categoryName}
-                onChange={(event) => {
-                  setCategoryName(event.target.value);
-                }}
-                maxLength={50}
-                disabled={isSubmitting}
-                autoFocus
-              />
+            <input
+              id="categoryName"
+              type="text"
+              className="form-control"
+              placeholder="예: 영어 학습 자료"
+              value={categoryName}
+              onChange={(event) => {
+                setCategoryName(event.target.value);
+              }}
+              maxLength={50}
+              disabled={isSubmitting}
+              autoFocus
+            />
 
-              <div className="d-flex justify-content-end mt-1">
-                <small className="text-secondary">
-                  {categoryName.length}/50
-                </small>
-              </div>
+            <div className="d-flex justify-content-end mt-1">
+              <small className="text-secondary">{categoryName.length}/50</small>
             </div>
+          </div>
 
-            <div className="mb-4">
-              <label htmlFor="description" className="form-label fw-semibold">
-                설명
-                <span className="text-secondary fw-normal ms-1">선택</span>
-              </label>
+          <div className="mb-4">
+            <label htmlFor="description" className="form-label fw-semibold">
+              설명
+              <span className="text-secondary fw-normal ms-1">선택</span>
+            </label>
 
-              <textarea
-                id="description"
-                className="form-control"
-                rows={4}
-                placeholder="카테고리에 대한 간단한 설명"
-                value={description}
-                onChange={(event) => {
-                  setDescription(event.target.value);
-                }}
-                maxLength={200}
-                disabled={isSubmitting}
-              />
+            <textarea
+              id="description"
+              className="form-control"
+              rows={4}
+              placeholder="카테고리에 대한 간단한 설명"
+              value={description}
+              onChange={(event) => {
+                setDescription(event.target.value);
+              }}
+              maxLength={200}
+              disabled={isSubmitting}
+            />
 
-              <div className="text-end mt-1">
-                <small className="text-secondary">
-                  {description.length}/200
-                </small>
-              </div>
+            <div className="text-end mt-1">
+              <small className="text-secondary">{description.length}/200</small>
             </div>
+          </div>
 
-            <div className="d-flex justify-content-end gap-2">
-              <button
-                type="button"
-                className="btn btn-light"
-                disabled={isSubmitting}
-                onClick={handleCancel}
-              >
-                취소
-              </button>
+          <div className="d-flex justify-content-end gap-2">
+            <button
+              type="button"
+              className="btn btn-light"
+              disabled={isSubmitting}
+              onClick={handleCancel}
+            >
+              취소
+            </button>
 
-              <button
-                type="button"
-                className="btn btn-primary px-4"
-                disabled={isSubmitting || !categoryName.trim()}
-                onClick={handleSave}
-              >
-                {isSubmitting ? (
-                  <>
-                    <span
-                      className="spinner-border spinner-border-sm me-2"
-                      aria-hidden="true"
-                    />
-                    저장 중
-                  </>
-                ) : (
-                  "변경사항 저장"
-                )}
-              </button>
-            </div>
+            <button
+              type="button"
+              className="btn btn-primary px-4"
+              disabled={isSubmitting || !categoryName.trim()}
+              onClick={handleSave}
+            >
+              {isSubmitting ? (
+                <>
+                  <span
+                    className="spinner-border spinner-border-sm me-2"
+                    aria-hidden="true"
+                  />
+                  저장 중
+                </>
+              ) : (
+                "변경사항 저장"
+              )}
+            </button>
           </div>
         </div>
       </div>

@@ -30,7 +30,7 @@ export default function CategoryListPage() {
 
   return (
     <main className="min-vh-100 bg-light">
-      <div className="container py-5">
+      <div className="p-4">
         <header className="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-4 mb-5">
           <div>
             <div className="d-flex align-items-center gap-2 text-primary fw-semibold small mb-2">
@@ -41,7 +41,7 @@ export default function CategoryListPage() {
               Workspace
             </div>
 
-            <h1 className="display-6 fw-bold mb-2">내 카테고리</h1>
+            <h1>내 카테고리</h1>
 
             <p className="text-secondary mb-0">
               카테고리와 파일을 한곳에서 관리하고 필요한 자료를 빠르게
@@ -49,15 +49,15 @@ export default function CategoryListPage() {
             </p>
           </div>
 
-          <div className="d-flex flex-column flex-sm-row gap-2">
-            <div className="input-group" style={{ minWidth: 280 }}>
+          <div className="d-flex w-100 gap-2">
+            <div className="d-flex w-100 gap-2">
               <span className="input-group-text bg-white border-end-0 text-secondary">
                 <i className="bi bi-search" />
               </span>
 
               <input
                 type="search"
-                className="form-control border-start-0 ps-0"
+                className="form-control border-start-0"
                 placeholder="파일 또는 카테고리 검색"
                 aria-label="파일 또는 카테고리 검색"
               />
