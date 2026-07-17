@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { invoke } from "@tauri-apps/api/core";
 import { showToast } from "../../form/toast/Toast";
 import { CategoryType } from "../../type/Type";
+import { useLoginStore } from "../../zustand/ZustandLogin";
 
 export default function SentenceCreatePage() {
   const navigate = useNavigate();
-  const [categoryName, setCategoryName] = useState<string | null>(null);
+  const { categoryName, setCategoryName } = useLoginStore();
   const [categories, setCategories] = useState<CategoryType[]>([]);
 
   const [sourceLanguageType, setSourceLanguageType] = useState<
@@ -76,7 +77,7 @@ export default function SentenceCreatePage() {
             <select
               className="form-select"
               value={categoryName || ""}
-              onChange={(e) => setCategoryName(String(e.target.value) || null)}
+              onChange={(e) => setCategoryName(String(e.target.value))}
             >
               <option value="">카테고리를 선택하세요</option>
               {categories.map((category) => (
