@@ -9,6 +9,9 @@ import SentenceCreatePage from "./components/pages/create/SetenceCreatePage";
 import SentenceEditPage from "./components/pages/edit/SentenceEditPage";
 import SentenceListPage from "./components/pages/main/SentenceListPage";
 import SentenceAllListPage from "./components/pages/list/SentenceAllListPage";
+import CategoryListPage from "./components/pages/category/list/CategoryListPage";
+import CategoryCreatePage from "./components/pages/category/create/CategoryCreatePage";
+import CategoryEditPage from "./components/pages/category/edit/CategoryEditPage";
 
 export default function App() {
   const { setIsLogin } = useLoginStore();
@@ -29,7 +32,13 @@ export default function App() {
         <Route path="/" element={<SentenceListPage />} />
         <Route path="/sentences/list" element={<SentenceAllListPage />} />
         <Route path="/sentences/create" element={<SentenceCreatePage />} />
+        <Route path="/categories/list" element={<CategoryListPage />} />
         <Route path="/sentences/:id/edit" element={<SentenceEditPage />} />
+        <Route path="/categories/create" element={<CategoryCreatePage />} />
+        <Route
+          path="/categories/:categoryId/edit"
+          element={<CategoryEditPage />}
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>

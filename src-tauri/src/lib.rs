@@ -46,6 +46,7 @@ pub async fn run() {
             command::category_command::create_domain_category,
             command::category_command::update_domain_category,
             command::category_command::get_domain_categories,
+            command::category_command::get_domain_category,
             command::category_command::delete_domain_category,
             command::practice_text_command::create_practice_text,
             command::practice_text_command::update_practice_text,

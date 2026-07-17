@@ -70,11 +70,19 @@ export default function Header({ mode, index, totalCount }: Props) {
 
           <h1 className="mb-2">타우리 한영 번역 연습</h1>
 
-          <p className="subtitle mb-0">
-            한국어 문장을 영어로 옮기고,
-            <br />
-            예시 번역과 비교하며 표현을 다듬어 보세요.
-          </p>
+          <div className="d-flex gap-2 align-items-center">
+            <button
+              className="btn btn-outline-primary"
+              onClick={() => navigate("/categories/list")}
+            >
+              카테고리 관리
+            </button>
+            <p className="subtitle mb-0">
+              한국어 문장을 영어로 옮기고,
+              <br />
+              예시 번역과 비교하며 표현을 다듬어 보세요.
+            </p>
+          </div>
         </div>
         <div className="glass-card text-center px-4 py-3">
           <span className="text-secondary d-block small">{modeText}</span>

@@ -29,6 +29,12 @@ pub async fn get_domain_categories(state: State<'_, AppState>, token: String) ->
 }
 
 #[tauri::command]
+pub async fn get_domain_category(state: State<'_, AppState>, token: String, category_id: i64) -> Result<DomainCategory, String> {
+    let user_id = current_user(&token)?;
+    category_service::get_domain_category(&state.db, user_id, category_id).await
+}
+
+#[tauri::command]
 pub async fn delete_domain_category(state: State<'_, AppState>, token: String, category_id: i64) -> Result<(), String> {
     let user_id = current_user(&token)?;
     category_service::delete_domain_category(&state.db, user_id, category_id).await

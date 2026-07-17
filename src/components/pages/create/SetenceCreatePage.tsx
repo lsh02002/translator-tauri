@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { invoke } from "@tauri-apps/api/core";
 import { showToast } from "../../form/toast/Toast";
+import { CategoryType } from "../../type/Type";
 
 export default function SentenceCreatePage() {
   const navigate = useNavigate();
+  const [categoryName, setCategoryName] = useState<string | null>(null);
+  const [categories, setCategories] = useState<CategoryType[]>([]);
 
   const [sourceLanguageType, setSourceLanguageType] = useState<
     "ko-KR" | "en-US"
@@ -12,6 +15,24 @@ export default function SentenceCreatePage() {
 
   const [sourceLanguage, setSourceLanguage] = useState("");
   const [targetLanguage, setTargetLanguage] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const token = localStorage.getItem("accessToken");
+        const result = await invoke<CategoryType[]>("get_domain_categories", {
+          token,
+        });
+
+        setCategories(result);
+      } catch (e) {
+        showToast(
+          "카테고리 데이터를 불러오는 데 실패했습니다.: " + String(e),
+          "error",
+        );
+      }
+    })();
+  }, []);
 
   const createPracticeText = async () => {
     if (!sourceLanguage.trim()) {
@@ -21,11 +42,14 @@ export default function SentenceCreatePage() {
 
     try {
       const token = localStorage.getItem("accessToken");
+      const domainCategoryId =
+        categories.find((category) => category.name === categoryName)?.id ??
+        null;
 
       await invoke("create_practice_text", {
         token,
         request: {
-          domain_category_id: null,
+          domain_category_id: domainCategoryId,
           source_language_type: sourceLanguageType,
           source_language: sourceLanguage.trim(),
           target_language: targetLanguage.trim(),
@@ -47,6 +71,21 @@ export default function SentenceCreatePage() {
         </div>
 
         <div className="row g-3 mb-4">
+          <div className="col-md-6">
+            <label className="form-label">카테고리</label>
+            <select
+              className="form-select"
+              value={categoryName || ""}
+              onChange={(e) => setCategoryName(String(e.target.value) || null)}
+            >
+              <option value="">카테고리를 선택하세요</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="col-md-6">
             <label className="form-label">모드</label>
             <select

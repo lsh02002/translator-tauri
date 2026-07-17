@@ -33,3 +33,10 @@ export type TipsType = {
   score: number;
   review: string;
 };
+
+export type CategoryType = {
+  id: number;
+  user_id: number;
+  name: string;
+  description: string | null;
+};

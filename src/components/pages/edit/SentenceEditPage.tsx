@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { invoke } from "@tauri-apps/api/core";
-import { DifficultyType, SentenceType } from "../../type/Type";
+import { CategoryType, DifficultyType, SentenceType } from "../../type/Type";
 import { showToast } from "../../form/toast/Toast";
 
 export default function SentenceEditPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [categoryName, setCategoryName] = useState<string | null>(null);
+  const [categories, setCategories] = useState<CategoryType[]>([]);
 
   const [sourceLanguageType, setSourceLanguageType] = useState<
     "ko-KR" | "en-US"
@@ -33,6 +35,7 @@ export default function SentenceEditPage() {
         id: Number(id),
       });
 
+      setCategoryName(result.domain_category_name ?? null);
       setSourceLanguage(result.source_language);
       setTargetLanguage(result.target_language);
       setSourceLanguageType(
@@ -40,7 +43,7 @@ export default function SentenceEditPage() {
       );
       setSampleTranslation(result.sample_translation ?? "");
       setDifficulty(result.difficulty ?? "전부");
-      setTips(JSON.parse(result.tips) ?? null);      
+      setTips(JSON.parse(result.tips) ?? null);
     } catch (e) {
       showToast("문장 정보를 불러오는 데 실패했습니다.: " + String(e), "error");
     }
@@ -49,6 +52,24 @@ export default function SentenceEditPage() {
   useEffect(() => {
     fetchSentence();
   }, [id]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const token = localStorage.getItem("accessToken");
+        const result = await invoke<CategoryType[]>("get_domain_categories", {
+          token,
+        });
+
+        setCategories(result);
+      } catch (e) {
+        showToast(
+          "카테고리 데이터를 불러오는 데 실패했습니다.: " + String(e),
+          "error",
+        );
+      }
+    })();
+  }, []);
 
   const updatePracticeText = async () => {
     if (!id) {
@@ -64,10 +85,15 @@ export default function SentenceEditPage() {
     try {
       const token = localStorage.getItem("accessToken");
 
+      const domainCategoryId =
+        categories.find((category) => category.name === categoryName)?.id ??
+        null;
+
       await invoke("update_practice_text", {
         token,
         id: Number(id),
         request: {
+          domain_category_id: domainCategoryId,
           source_language_type: sourceLanguageType,
           source_language: sourceLanguage.trim(),
           target_language: targetLanguage.trim(),
@@ -89,6 +115,21 @@ export default function SentenceEditPage() {
         </div>
 
         <div className="row g-3 mb-4">
+          <div className="col-md-6">
+            <label className="form-label">카테고리</label>
+            <select
+              className="form-select"
+              value={categoryName || ""}
+              onChange={(e) => setCategoryName(String(e.target.value) || null)}
+            >
+              <option value="">카테고리를 선택하세요</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="col-md-6">
             <label className="form-label fw-bold">모드</label>
             <select

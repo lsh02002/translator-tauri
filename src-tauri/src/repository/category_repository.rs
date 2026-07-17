@@ -55,6 +55,16 @@ pub async fn find_all(db: &SqlitePool, user_id: i64) -> Result<Vec<DomainCategor
     .await
 }
 
+pub async fn find_by_id(db: &SqlitePool, user_id: i64, category_id: i64) -> Result<DomainCategory, sqlx::Error> {
+    sqlx::query_as::<_, DomainCategory>(
+        "SELECT id, user_id, name, description FROM domain_categories WHERE id = ? AND user_id = ?",
+    )
+    .bind(category_id)
+    .bind(user_id)
+    .fetch_one(db)
+    .await
+}
+
 pub async fn delete(db: &SqlitePool, user_id: i64, category_id: i64) -> Result<(), sqlx::Error> {
     sqlx::query(
         "DELETE FROM domain_categories WHERE id = ? AND user_id = ?",
