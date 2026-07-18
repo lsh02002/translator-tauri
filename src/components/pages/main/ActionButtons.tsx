@@ -60,7 +60,13 @@ export default function ActionButtons({
             </>
           )}
         </div>
-        <div>
+        <div className="d-flex flex-wrap gap-2">
+          <button
+            className="btn btn-outline-primary"
+            onClick={() => navigate("/categories/list")}
+          >
+            카테고리 관리
+          </button>
           <button
             className="btn btn-light fw-bold"
             onClick={() => navigate("/sentences/list")}

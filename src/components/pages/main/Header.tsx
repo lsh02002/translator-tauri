@@ -70,13 +70,7 @@ export default function Header({ mode, index, totalCount }: Props) {
 
           <h1 className="mb-2">타우리 한영 번역 연습</h1>
 
-          <div className="d-flex gap-2 align-items-center">
-            <button
-              className="btn btn-outline-primary"
-              onClick={() => navigate("/categories/list")}
-            >
-              카테고리 관리
-            </button>
+          <div className="d-flex gap-2 align-items-center">            
             <p className="subtitle mb-0">
               한국어 문장을 영어로 옮기고,
               <br />
